@@ -1,0 +1,21 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.name {
+  width: 400px;
+}
+
+.hobby {
+  h3 {
+    text-align: center;
+  }
+}
+
+.hobby-name {
+  margin-right: 10px;
+}

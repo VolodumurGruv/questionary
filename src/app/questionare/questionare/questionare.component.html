@@ -1,1 +1,48 @@
-<p>questionare works!</p>
+<div class="form-container">
+  <h2>Анкета</h2>
+  <mat-form-field class="name" appearance="fill">
+    <mat-label>Имя</mat-label>
+    <input matInput />
+  </mat-form-field>
+  <mat-form-field class="name" appearance="fill">
+    <mat-label>Фамилия</mat-label>
+    <input matInput />
+  </mat-form-field>
+  <mat-form-field class="date" appearance="fill">
+    <mat-label>Дата рождения</mat-label>
+    <input matInput [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Технология</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let stack of stacks" [value]="stack">{{
+        stack
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Версия</mat-label>
+    <mat-select [disabled]="true">
+      <mat-option *ngFor="let stack of stacks" [value]="stack">{{
+        stack
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="name" appearance="fill">
+    <mat-label>e-mail</mat-label>
+    <input matInput />
+  </mat-form-field>
+  <div class="hobby">
+    <h3>Хобби</h3>
+    <mat-form-field class="hobby-name" appearance="fill">
+      <mat-label>Название</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="hobby-name" appearance="fill">
+      <mat-label>Длительность</mat-label>
+      <input matInput />
+    </mat-form-field>
+  </div>
+</div>
