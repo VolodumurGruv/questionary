@@ -1,0 +1,127 @@
+<div class="form">
+  <h2>Анкета</h2>
+  <form class="form-container" [formGroup]="formQuestion" (ngSubmit)="save()">
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput formControlName="firstName" />
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.firstName.invalid &&
+          (this.formQuestion.controls.firstName.dirty ||
+            this.formQuestion.controls.firstName.touched)
+        "
+        class="alert alert-danger"
+        >Поле Имя не может быть пустым
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="lastName" />
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.lastName.invalid &&
+          (this.formQuestion.controls.lastName.dirty ||
+            this.formQuestion.controls.lastName.touched)
+        "
+        class="alert alert-danger"
+        >Поле Фамилия не может быть пустым
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="date" appearance="fill">
+      <mat-label>Дата рождения</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.dateOfBirth.invalid &&
+          (this.formQuestion.controls.dateOfBirth.dirty ||
+            this.formQuestion.controls.dateOfBirth.touched)
+        "
+        class="alert alert-danger"
+        >Необходимо указать дату рождения
+      </mat-error>
+    </mat-form-field>
+    <div formGroupName="frameworks">
+      <mat-form-field class="frameworks" appearance="fill">
+        <mat-label>Технология</mat-label>
+        <mat-select formControlName="framework">
+          <mat-option *ngFor="let framework of frameworks" [value]="framework">
+            {{ framework }}
+          </mat-option>
+        </mat-select>
+        <!-- <mat-error
+          *ngIf="
+            this.formQuestion.controls.framework.invalid &&
+            (this.formQuestion.controls.framework.dirty ||
+              this.formQuestion.controls.framework.touched)
+          "
+          class="alert alert-danger"
+          >Выберите технологию
+        </mat-error> -->
+      </mat-form-field>
+      <mat-form-field class="frameworks" appearance="fill">
+        <mat-label>Версия</mat-label>
+        <mat-select [disabled]="disable" formControlName="frameworkVersion">
+          <mat-option *ngFor="let v of getFrameworkVersion()" [value]="v">
+            {{ v }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>e-mail</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.email.invalid &&
+          (this.formQuestion.controls.email.dirty ||
+            this.formQuestion.controls.email.touched)
+        "
+        class="alert alert-danger"
+        >Поле e-mail не может быть пустым
+      </mat-error>
+    </mat-form-field>
+    <div class="hobby" formArrayName="hobby">
+      <h3>Хобби</h3>
+      <p>
+        Добавить больше хобби
+        <button mat-button color="primary" type="button" (click)="addHobby()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </p>
+      <div *ngFor="let hob of getHobbies().controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field class="hobby-name" appearance="fill">
+            <mat-label>Название</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error
+              *ngIf="this.formQuestion.controls.hobby.invalid"
+              class="alert alert-danger"
+              >Укажите свое хобби
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="hobby-name" appearance="fill">
+            <mat-label>Длительность</mat-label>
+            <input matInput formControlName="duration" />
+            <mat-error
+              *ngIf="this.formQuestion.controls.hobby.invalid"
+              class="alert alert-danger"
+              >Укажите как долго Вы занимаетесь своим хобби
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!formQuestion.valid"
+    >
+      Сохранить
+    </button>
+  </form>
+</div>
