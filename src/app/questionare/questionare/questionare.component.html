@@ -1,48 +1,64 @@
-<div class="form-container">
+<div class="form">
   <h2>Анкета</h2>
-  <mat-form-field class="name" appearance="fill">
-    <mat-label>Имя</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <mat-form-field class="name" appearance="fill">
-    <mat-label>Фамилия</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <mat-form-field class="date" appearance="fill">
-    <mat-label>Дата рождения</mat-label>
-    <input matInput [matDatepicker]="picker" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Технология</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let stack of stacks" [value]="stack">{{
-        stack
-      }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Версия</mat-label>
-    <mat-select [disabled]="true">
-      <mat-option *ngFor="let stack of stacks" [value]="stack">{{
-        stack
-      }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="name" appearance="fill">
-    <mat-label>e-mail</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <div class="hobby">
-    <h3>Хобби</h3>
-    <mat-form-field class="hobby-name" appearance="fill">
-      <mat-label>Название</mat-label>
-      <input matInput />
+  <form class="form-container" [formGroup]="formQuestion" (ngSubmit)="save()">
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput formControlName="firstName" />
     </mat-form-field>
-    <mat-form-field class="hobby-name" appearance="fill">
-      <mat-label>Длительность</mat-label>
-      <input matInput />
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="lastName" />
     </mat-form-field>
-  </div>
+    <mat-form-field class="date" appearance="fill">
+      <mat-label>Дата рождения</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div formGroupName="frameworks">
+      <mat-form-field class="frameworks" appearance="fill">
+        <mat-label>Технология</mat-label>
+        <mat-select formControlName="framework">
+          <mat-option *ngFor="let framework of frameworks" [value]="framework">
+            {{ framework }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="frameworks" appearance="fill">
+        <mat-label>Версия</mat-label>
+        <mat-select [disabled]="disable" formControlName="frameworkVersion">
+          <mat-option *ngFor="let v of getFrameworkVersion()" [value]="v">
+            {{ v }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>e-mail</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+    <div class="hobby" formGroupName="hobby">
+      <h3>Хобби</h3>
+      <p>
+        Добавить больше хобби
+        <button mat-button color="primary" type="button" (click)="addHobby()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </p>
+      <div *ngFor="let hobby of getHobbies(); let i = index">
+        <div [formArrayName]="i">
+          <mat-form-field class="hobby-name" appearance="fill">
+            <mat-label>Название</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field class="hobby-name" appearance="fill">
+            <mat-label>Длительность</mat-label>
+            <input matInput formControlName="duration" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Сохранить</button>
+  </form>
 </div>
