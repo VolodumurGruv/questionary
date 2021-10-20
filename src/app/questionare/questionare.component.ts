@@ -1,14 +1,11 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-} from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { EmaileService } from '../services/email.service';
 import { uniqueEmail } from '../validators/email.validator';
 import { PickDateAdapter, _pickFormats } from '../helpres/formatDate';
 import { emailSymbol } from '../validators/email-symbol.validator';
+import { USER_DATA } from '../interfaces/interface';
 
 @Component({
   selector: 'app-questionare',
@@ -17,8 +14,6 @@ import { emailSymbol } from '../validators/email-symbol.validator';
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: _pickFormats },
-    { provide: MAT_DATE_LOCALE, useValue: 'ru-Ru' },
-    { provide: LOCALE_ID, useValue: 'ru' },
   ],
 })
 export class QuestionareComponent implements OnInit {
@@ -34,6 +29,7 @@ export class QuestionareComponent implements OnInit {
 
   disable: boolean = true;
   vers: string[] = [];
+  userData?: USER_DATA;
 
   formQuestion = this.fb.group({
     firstName: ['', Validators.required],
@@ -57,7 +53,13 @@ export class QuestionareComponent implements OnInit {
     ]),
   });
 
-  constructor(private fb: FormBuilder, private emailService: EmaileService) {}
+  constructor(
+    private fb: FormBuilder,
+    private emailService: EmaileService,
+    _dateAdapter: DateAdapter<any>
+  ) {
+    _dateAdapter.setLocale;
+  }
 
   ngOnInit() {}
 
@@ -97,6 +99,7 @@ export class QuestionareComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formQuestion.value);
+    this.userData = this.formQuestion.value;
+    console.log(this.userData);
   }
 }
