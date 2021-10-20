@@ -83,6 +83,12 @@
         class="alert alert-danger"
         >Поле e-mail не может быть пустым
       </mat-error>
+      <mat-error *ngIf="formQuestion.get('email')?.errors?.taken"
+        >Такой e-mail занят, укажите другой</mat-error
+      >
+      <div>
+        {{ formQuestion.controls.email?.dirty }}
+      </div>
     </mat-form-field>
     <div class="hobby" formArrayName="hobby">
       <h3>Хобби</h3>

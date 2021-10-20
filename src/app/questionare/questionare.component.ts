@@ -5,6 +5,8 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { EmaileService } from '../services/email.service';
+import { uniqueEmail } from '../validators/email.validator';
 
 @Component({
   selector: 'app-questionare',
@@ -28,8 +30,11 @@ export class QuestionareComponent implements OnInit {
     lastName: ['', Validators.required],
     email: [
       '',
-      [Validators.required, Validators.email],
-      this.emailValidator.validate.bind(this.emailValidator),
+      {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: [uniqueEmail(this.emailService)],
+        updateOn: 'blur',
+      },
     ],
     dateOfBirth: ['', Validators.required],
     frameworks: this.fb.group({
@@ -44,10 +49,7 @@ export class QuestionareComponent implements OnInit {
     ]),
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private emailValidator: EmailValidator
-  ) {}
+  constructor(private fb: FormBuilder, private emailService: EmaileService) {}
 
   ngOnInit() {
     console.log(this.formQuestion);
@@ -85,10 +87,12 @@ export class QuestionareComponent implements OnInit {
         duration: ['', Validators.required],
       })
     );
+    console.log(this.formQuestion.controls.email.errors);
+
     console.log(this.getHobbies().valid);
   }
 
   save() {
-    console.log(this.formQuestion.value);
+    console.log(this.formQuestion.controls.email);
   }
 }
