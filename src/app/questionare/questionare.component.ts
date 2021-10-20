@@ -99,6 +99,5 @@ export class QuestionareComponent implements OnInit {
 
   save() {
     this.userData = this.formQuestion.value;
-    console.log(this.userData);
   }
 }
