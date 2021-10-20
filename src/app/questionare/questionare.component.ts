@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  EmailValidator,
-  FormArray,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { EmaileService } from '../services/email.service';
 import { uniqueEmail } from '../validators/email.validator';
+import { PickDateAdapter, _pickFormats } from '../helpres/formatDate';
+import { emailSymbol } from '../validators/email-symbol.validator';
+import { USER_DATA } from '../interfaces/interface';
 
 @Component({
   selector: 'app-questionare',
   templateUrl: './questionare.component.html',
   styleUrls: ['./questionare.component.scss'],
-  providers: [EmailValidator],
+  providers: [
+    { provide: DateAdapter, useClass: PickDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: _pickFormats },
+  ],
 })
 export class QuestionareComponent implements OnInit {
   frameworks = ['angular', 'react', 'vue'];
@@ -22,8 +24,12 @@ export class QuestionareComponent implements OnInit {
     vue: ['3.3.1', '5.2.1', '5.1.3'],
   };
 
+  minDate = new Date(`${new Date().getFullYear() - 100}-01-01`);
+  maxDate = new Date(`${new Date().getFullYear() - 10}-01-01`);
+
   disable: boolean = true;
   vers: string[] = [];
+  userData?: USER_DATA;
 
   formQuestion = this.fb.group({
     firstName: ['', Validators.required],
@@ -31,16 +37,14 @@ export class QuestionareComponent implements OnInit {
     email: [
       '',
       {
-        validators: [Validators.required, Validators.email],
+        validators: [Validators.required, Validators.email, emailSymbol()],
         asyncValidators: [uniqueEmail(this.emailService)],
         updateOn: 'blur',
       },
     ],
     dateOfBirth: ['', Validators.required],
-    frameworks: this.fb.group({
-      framework: ['', Validators.required],
-      frameworkVersion: ['', Validators.required],
-    }),
+    framework: ['', Validators.required],
+    frameworkVersion: ['', Validators.required],
     hobby: this.fb.array([
       this.fb.group({
         name: ['', Validators.required],
@@ -49,14 +53,18 @@ export class QuestionareComponent implements OnInit {
     ]),
   });
 
-  constructor(private fb: FormBuilder, private emailService: EmaileService) {}
-
-  ngOnInit() {
-    console.log(this.formQuestion);
+  constructor(
+    private fb: FormBuilder,
+    private emailService: EmaileService,
+    _dateAdapter: DateAdapter<any>
+  ) {
+    _dateAdapter.setLocale;
   }
 
+  ngOnInit() {}
+
   getFrameworkVersion() {
-    const framework = this.formQuestion.value.frameworks?.framework;
+    const framework = this.formQuestion.value.framework;
 
     let i = 0;
     for (const fr in this.versions) {
@@ -90,6 +98,7 @@ export class QuestionareComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formQuestion.value);
+    this.userData = this.formQuestion.value;
+    console.log(this.userData);
   }
 }
