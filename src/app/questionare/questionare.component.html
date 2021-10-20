@@ -14,7 +14,7 @@
         >Поле Имя не может быть пустым
       </mat-error>
     </mat-form-field>
-
+    <!-- Lastname start -->
     <mat-form-field class="name" appearance="fill">
       <mat-label>Фамилия</mat-label>
       <input matInput formControlName="lastName" />
@@ -28,9 +28,16 @@
         >Поле Фамилия не может быть пустым
       </mat-error>
     </mat-form-field>
+    <!-- Birthday date start -->
     <mat-form-field class="date" appearance="fill">
       <mat-label>Дата рождения</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [min]="minDate"
+        [max]="maxDate"
+        formControlName="dateOfBirth"
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error
@@ -43,7 +50,7 @@
         >Необходимо указать дату рождения
       </mat-error>
     </mat-form-field>
-
+    <!-- Frameworks start -->
     <mat-form-field
       class="frameworks"
       appearance="fill"
@@ -82,7 +89,7 @@
         >Выберите версию
       </mat-error>
     </mat-form-field>
-
+    <!-- Email starts -->
     <mat-form-field class="name" appearance="fill">
       <mat-label>e-mail</mat-label>
       <input matInput formControlName="email" />
@@ -108,7 +115,11 @@
       <mat-error *ngIf="formQuestion.get('email')?.errors?.taken"
         >Такой e-mail занят, укажите другой</mat-error
       >
+      <mat-error *ngIf="formQuestion.get('email')?.errors?.forbiddenSymbol"
+        >Присутствует недопустимый символ или неполный e-mail</mat-error
+      >
     </mat-form-field>
+    <!-- Hobby starts -->
     <div class="hobby" formArrayName="hobby">
       <h3>Хобби</h3>
       <p>
