@@ -6,7 +6,6 @@ export function uniqueEmail(emails: EmaileService): AsyncValidatorFn {
   return (control: AbstractControl) => {
     return emails.isEmailTaken(control.value).pipe(
       map((isTaken) => {
-        console.log(isTaken);
         return isTaken ? { taken: true } : null;
       })
     );

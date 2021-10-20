@@ -43,52 +43,71 @@
         >Необходимо указать дату рождения
       </mat-error>
     </mat-form-field>
-    <div formGroupName="frameworks">
-      <mat-form-field class="frameworks" appearance="fill">
-        <mat-label>Технология</mat-label>
-        <mat-select formControlName="framework">
-          <mat-option *ngFor="let framework of frameworks" [value]="framework">
-            {{ framework }}
-          </mat-option>
-        </mat-select>
-        <!-- <mat-error
-          *ngIf="
-            this.formQuestion.controls.framework.invalid &&
-            (this.formQuestion.controls.framework.dirty ||
-              this.formQuestion.controls.framework.touched)
-          "
-          class="alert alert-danger"
-          >Выберите технологию
-        </mat-error> -->
-      </mat-form-field>
-      <mat-form-field class="frameworks" appearance="fill">
-        <mat-label>Версия</mat-label>
-        <mat-select [disabled]="disable" formControlName="frameworkVersion">
-          <mat-option *ngFor="let v of getFrameworkVersion()" [value]="v">
-            {{ v }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-    </div>
+
+    <mat-form-field
+      class="frameworks"
+      appearance="fill"
+      (click)="getFrameworkVersion()"
+    >
+      <mat-label>Технология</mat-label>
+      <mat-select formControlName="framework">
+        <mat-option *ngFor="let framework of frameworks" [value]="framework">
+          {{ framework }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.framework.invalid &&
+          (this.formQuestion.controls.framework.dirty ||
+            this.formQuestion.controls.framework.touched)
+        "
+        class="alert alert-danger"
+        >Выберите технологию
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="frameworks" appearance="fill">
+      <mat-label>Версия</mat-label>
+      <mat-select [disabled]="disable" formControlName="frameworkVersion">
+        <mat-option *ngFor="let v of getFrameworkVersion()" [value]="v">
+          {{ v }}</mat-option
+        >
+      </mat-select>
+      <mat-error
+        *ngIf="
+          this.formQuestion.controls.frameworkVersion.invalid &&
+          (this.formQuestion.controls.frameworkVersion.dirty ||
+            this.formQuestion.controls.frameworkVersion.touched)
+        "
+        class="alert alert-danger"
+        >Выберите версию
+      </mat-error>
+    </mat-form-field>
 
     <mat-form-field class="name" appearance="fill">
       <mat-label>e-mail</mat-label>
       <input matInput formControlName="email" />
       <mat-error
         *ngIf="
-          this.formQuestion.controls.email.invalid &&
-          (this.formQuestion.controls.email.dirty ||
-            this.formQuestion.controls.email.touched)
+          formQuestion.get('email')?.errors?.required &&
+          (formQuestion.controls.email.dirty ||
+            formQuestion.controls.email.touched)
         "
         class="alert alert-danger"
         >Поле e-mail не может быть пустым
       </mat-error>
+      <mat-error
+        *ngIf="
+          formQuestion.get('email')?.errors?.email &&
+          (formQuestion.controls.email.dirty ||
+            formQuestion.controls.email.touched)
+        "
+        class="alert alert-danger"
+        >Не коректный e-mail
+      </mat-error>
+
       <mat-error *ngIf="formQuestion.get('email')?.errors?.taken"
         >Такой e-mail занят, укажите другой</mat-error
       >
-      <div>
-        {{ formQuestion.controls.email?.dirty }}
-      </div>
     </mat-form-field>
     <div class="hobby" formArrayName="hobby">
       <h3>Хобби</h3>

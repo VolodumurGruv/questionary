@@ -37,10 +37,8 @@ export class QuestionareComponent implements OnInit {
       },
     ],
     dateOfBirth: ['', Validators.required],
-    frameworks: this.fb.group({
-      framework: ['', Validators.required],
-      frameworkVersion: ['', Validators.required],
-    }),
+    framework: ['', Validators.required],
+    frameworkVersion: ['', Validators.required],
     hobby: this.fb.array([
       this.fb.group({
         name: ['', Validators.required],
@@ -51,12 +49,10 @@ export class QuestionareComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private emailService: EmaileService) {}
 
-  ngOnInit() {
-    console.log(this.formQuestion);
-  }
+  ngOnInit() {}
 
   getFrameworkVersion() {
-    const framework = this.formQuestion.value.frameworks?.framework;
+    const framework = this.formQuestion.value.framework;
 
     let i = 0;
     for (const fr in this.versions) {
@@ -87,12 +83,9 @@ export class QuestionareComponent implements OnInit {
         duration: ['', Validators.required],
       })
     );
-    console.log(this.formQuestion.controls.email.errors);
-
-    console.log(this.getHobbies().valid);
   }
 
   save() {
-    console.log(this.formQuestion.controls.email);
+    console.log(this.formQuestion.value);
   }
 }
