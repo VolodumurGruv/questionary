@@ -87,12 +87,9 @@ export class QuestionareComponent implements OnInit {
         duration: ['', Validators.required],
       })
     );
-    console.log(this.formQuestion.controls.email.errors);
-
-    console.log(this.getHobbies().valid);
   }
 
   save() {
-    console.log(this.formQuestion.controls.email);
+    console.log(this.formQuestion.value);
   }
 }
